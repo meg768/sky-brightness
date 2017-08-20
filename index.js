@@ -1,5 +1,5 @@
 var suncalc = require('suncalc');
-
+var Request = require('yow/request');
 
 module.exports = class SkyBrightness {
 
@@ -28,7 +28,25 @@ module.exports = class SkyBrightness {
     }
 
     getWeatherBrightness() {
-        return this.getSolarBrightness();
+
+        return new Promise(function(resolve, reject) {
+            var request = new Request('https://query.yahooapis.com');
+
+            var query = {};
+            query.q      = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="Lund, Sweden")'
+            query.format = 'json';
+            query.env    = 'store://datatables.org/alltableswithkeys';
+
+            request.get('/v1/public/yql', {query:query}).then(function(reply) {
+                console.log(reply.body.query.results.channel.item.condition);
+                resolve();
+            })
+            .catch(function(error) {
+                reject(error);
+            })
+
+        });
+
     }
 
     getLunarBrightness() {

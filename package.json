@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/meg768/sky-brightness#readme",
   "dependencies": {
-    "suncalc": "^1.8.0"
+    "suncalc": "^1.8.0",
+    "yow": "^1.0.81"
   }
 }
