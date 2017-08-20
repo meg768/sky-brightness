@@ -14,5 +14,12 @@ npm install sky-brightness --save
 var SkyBrightness = require('sky-brightness');
 var sky = new SkyBrightness();
 
-console.log('Brightness index of the sky is right now', sky.brightness());
+console.log('Brightness index of the sky is currently', sky.getPerceptualBrightness());
 ````
+
+## Methods
+
+getSolarBrightness
+getLunarBrightness
+getWeatherBrightness
+getPerceptualBrightness
