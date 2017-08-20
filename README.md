@@ -3,6 +3,8 @@
 A module to try to determine the current brightness of the sky. It uses the time of day,
 the season, current weather and current moon brightness to compute a number from 0 to 1.
 
+Please note: Under construction...
+
 ## Installation
 
 ````bash
