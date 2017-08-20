@@ -1,14 +1,19 @@
+var suncalc = require('suncalc');
 
 
-class SkyBrightness {
+module.exports = class SkyBrightness {
 
-    constuctor() {
+    constuctor(options) {
 
+        this.latitude = options.latitude;
+        this.longitude = options.longitude;
+        this.datetime = new Date();
     }
 
     // Returns an index of sun brightness 0 - 1, 1 - local zenith, 0 - local nadir
     getSolarBrightness(now) {
-        var suncalc = require('suncalc');
+
+        now = now == undefined ? new Date() : now;
 
         var latitude = 55.7;
         var longitude = 13.1833333;
@@ -21,6 +26,16 @@ class SkyBrightness {
         return (thisPosition.altitude - nadirPosition.altitude) / (zenithPosition.altitude - nadirPosition.altitude);
     }
 
+    getWeatherBrightness() {
+
+    }
+
+    getLunarBrightness() {
+
+    }
+
+
+
 }
 
-module.exports = new Class SkyBrightness;
+//module.exports = new Class SkyBrightness;
