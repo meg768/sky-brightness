@@ -7,13 +7,14 @@ module.exports = class SkyBrightness {
 
         this.latitude = options.latitude;
         this.longitude = options.longitude;
-        this.datetime = new Date();
+        this.time = new Date();
     }
 
     // Returns an index of sun brightness 0 - 1, 1 - local zenith, 0 - local nadir
-    getSolarBrightness(now) {
+    getSolarBrightness() {
 
-        now = now == undefined ? new Date() : now;
+
+        var now = new Date();
 
         var latitude = 55.7;
         var longitude = 13.1833333;
@@ -27,11 +28,15 @@ module.exports = class SkyBrightness {
     }
 
     getWeatherBrightness() {
-
+        return 0;
     }
 
     getLunarBrightness() {
 
+    }
+
+    getPerceptualBrightness() {
+        return this.getSolarBrightness();
     }
 
 
