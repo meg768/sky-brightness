@@ -28,10 +28,11 @@ module.exports = class SkyBrightness {
     }
 
     getWeatherBrightness() {
-        return 0;
+        return this.getSolarBrightness();
     }
 
     getLunarBrightness() {
+        return this.getSolarBrightness();
 
     }
 
