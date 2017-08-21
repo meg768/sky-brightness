@@ -17,9 +17,8 @@ npm install sky-brightness --save
 var SkyBrightness = require('sky-brightness');
 
 var sky = new SkyBrightness({
-    latitude: 55.7,
-    longitude: 13.18,
-    time: new Date()
+    latitude: 55.70,
+    longitude: 13.21
 });
 
 console.log('Brightness index of the sky is currently', sky.getPerceptualBrightness());

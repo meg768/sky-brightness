@@ -1,16 +1,21 @@
 var suncalc = require('suncalc');
 var Request = require('yow/request');
+var sprintf = require('yow/sprintf');
 var isArray = require('yow/is').isArray;
 
 function debug(...args) {
     //console.log(...args)
 }
+
 module.exports = class SkyBrightness {
 
-    constuctor(options) {
+    constructor(options) {
+
+        debug('Constructor', options);
 
         this.latitude = options.latitude;
         this.longitude = options.longitude;
+
         this.time = new Date();
     }
 
@@ -18,9 +23,8 @@ module.exports = class SkyBrightness {
     getSolarBrightness() {
 
         var now = new Date();
-
-        var latitude = 55.7;
-        var longitude = 13.1833333;
+        var latitude = this.latitude;
+        var longitude = this.longitude;
         var times = suncalc.getTimes(now, latitude, longitude);
 
         var zenithPosition = suncalc.getPosition(times.solarNoon,  latitude, longitude);
@@ -36,17 +40,19 @@ module.exports = class SkyBrightness {
 
     getWeatherBrightness() {
 
+        var self = this;
+
         var brightnessIndex = {
             'Sunny'             : 1.00,
             'Clear'             : 1.00,
-            'Mostly Sunny'      : 0.90,
-            'Mostly Clear'      : 0.90,
+            'Mostly Sunny'      : 0.95,
+            'Mostly Clear'      : 0.95,
 
-            'Partly Sunny'      : 0.85,
+            'Partly Sunny'      : 0.90,
 
-            'Partly Cloudy'     : 0.80,
-            'Mostly Cloudy'     : 0.70,
-            'Cloudy'            : 0.60,
+            'Partly Cloudy'     : 0.85,
+            'Mostly Cloudy'     : 0.80,
+            'Cloudy'            : 0.70,
 
             'Light Rain'        : 0.55,
             'Scattered Showers' : 0.55,
@@ -68,7 +74,7 @@ module.exports = class SkyBrightness {
             var request = new Request('https://query.yahooapis.com');
 
             var query = {};
-            query.q      = 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="A")'
+            query.q      = sprintf('select * from weather.forecast where woeid in (select woeid from geo.places where text="(%s,%s)")', self.longitude, self.latitude);
             query.format = 'json';
             query.env    = 'store://datatables.org/alltableswithkeys';
 
@@ -79,13 +85,13 @@ module.exports = class SkyBrightness {
                     results = results[0];
 
                 try {
-                    //debug(results.channel.item.condition);
+                    debug(results.channel.item);
 
                     var condition = results.channel.item.condition.text;
                     var brightness = brightnessIndex[condition];
 
                     if (brightness == undefined) {
-                        debug('Undefined condition:', condition);
+                        debug('Undefined weather condition:', condition);
                         brightness = 0.75;
                     }
 
