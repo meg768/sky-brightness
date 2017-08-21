@@ -2,8 +2,8 @@
 
 var SkyBrightness = require('./index.js');
 var sky = new SkyBrightness({
-    longitude: 55.70,
-    latitude: 13.21
+    latitude: 55.70,
+    longitude: 13.21
 });
 
 Promise.resolve().then(function() {
@@ -27,5 +27,5 @@ Promise.resolve().then(function() {
     console.log('Perceptual brightness', index);
 })
 .catch(function(error){
-    console.log(error);
+    console.log('Error:', error);
 })

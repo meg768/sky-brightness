@@ -74,18 +74,21 @@ module.exports = class SkyBrightness {
             var request = new Request('https://query.yahooapis.com');
 
             var query = {};
-            query.q      = sprintf('select * from weather.forecast where woeid in (select woeid from geo.places where text="(%s,%s)")', self.longitude, self.latitude);
+            query.q      = sprintf('select * from weather.forecast where woeid in (select woeid from geo.places where text="(%s,%s)")', self.latitude, self.longitude);
             query.format = 'json';
             query.env    = 'store://datatables.org/alltableswithkeys';
 
-            request.get('/v1/public/yql', {query:query}).then(function(reply) {
-                var results = reply.body.query.results;
+            debug('Query:', query);
 
-                if (isArray(results))
-                    results = results[0];
+            request.get('/v1/public/yql', {query:query}).then(function(reply) {
 
                 try {
-                    debug(results.channel.item);
+                    var results = reply.body.query.results;
+
+                    if (isArray(results))
+                        results = results[0];
+
+                    debug('Results:', results);
 
                     var condition = results.channel.item.condition.text;
                     var brightness = brightnessIndex[condition];
@@ -95,12 +98,12 @@ module.exports = class SkyBrightness {
                     }
                     else {
                         debug('Weather brightness:', brightness);
-                        resolve(brightness);                        
+                        resolve(brightness);
                     }
 
                 }
                 catch(error) {
-                    reject(error);
+                    throw error;
                 }
             })
             .catch(function(error) {
@@ -142,11 +145,9 @@ module.exports = class SkyBrightness {
                 debug('Perceptual brightness:', brightness);
                 resolve(brightness);
             })
+            .catch(function(error) {
+                reject(error);
+            })
         });
     }
-
-
-
 }
-
-//module.exports = new Class SkyBrightness;
