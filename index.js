@@ -91,12 +91,13 @@ module.exports = class SkyBrightness {
                     var brightness = brightnessIndex[condition];
 
                     if (brightness == undefined) {
-                        debug('Undefined weather condition:', condition);
-                        brightness = 0.75;
+                        reject(new Error('Undefined weather condition:' + condition));
+                    }
+                    else {
+                        debug('Weather brightness:', brightness);
+                        resolve(brightness);                        
                     }
 
-                    debug('Weather brightness:', brightness);
-                    resolve(brightness);
                 }
                 catch(error) {
                     reject(error);
