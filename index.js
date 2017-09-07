@@ -58,6 +58,7 @@ module.exports = class SkyBrightness {
             'Scattered Showers' : 0.55,
             'Rain Showers'      : 0.55,
             'Rain'              : 0.50,
+            'Showers'           : 0.50,
 
             'Fog'               : 0.50,
 
