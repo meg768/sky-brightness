@@ -18,7 +18,7 @@ var SkyBrightness = require('sky-brightness');
 
 var sky = new SkyBrightness({
     latitude: 55.70,
-    longitude: 13.21
+    longitude: 13.22
 });
 
 console.log('Brightness index of the sky is currently', sky.getPerceptualBrightness());
